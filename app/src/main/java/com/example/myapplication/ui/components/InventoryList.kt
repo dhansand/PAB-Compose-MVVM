@@ -14,6 +14,7 @@ import com.example.myapplication.data.model.InventoryItem
 fun InventoryList(
     items: List<InventoryItem>,
     onDeleteItem: (String) -> Unit,
+    onSelectItem: (InventoryItem) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     if (items.isEmpty()) {
@@ -27,7 +28,8 @@ fun InventoryList(
             items(items = items, key = { it.id }) { item ->
                 InventoryItemCard(
                     item = item,
-                    onDelete = { onDeleteItem(item.id) }
+                    onDelete = { onDeleteItem(item.id) },
+                    onClick = { onSelectItem(item) }
                 )
             }
         }

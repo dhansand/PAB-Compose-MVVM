@@ -2,8 +2,6 @@ package com.example.myapplication.ui.screens
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Surface
@@ -75,48 +73,39 @@ fun InventoryScreen(
                     InventoryList(
                         items = uiState.displayedItems,
                         onDeleteItem = viewModel::deleteItem,
+                        onSelectItem = viewModel::selectItemForEdit,
                         modifier = Modifier.weight(1f)
                     )
                 }
             }
         } else {
-            // Mode Portrait: Menggunakan Single LazyColumn utama (Sesuai Modul M11 Bagian 9.1 & 10.3)
-            // Form, Filter, dan Daftar Stok disatukan dalam LazyColumn untuk scrolling terpadu yang efisien
-            LazyColumn(
-                modifier = Modifier.fillMaxSize(),
-                contentPadding = PaddingValues(16.dp),
+            // Mode Portrait: Form dan Filter berada di atas (fixed), hanya daftar item stok yang dapat di-scroll
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                item {
-                    AddItemForm(
-                        uiState = uiState,
-                        onNameChange = viewModel::onNameChange,
-                        onStockChange = viewModel::onStockChange,
-                        onStockIncrement = viewModel::onStockIncrement,
-                        onStockDecrement = viewModel::onStockDecrement,
-                        onAddItem = viewModel::addItem
-                    )
-                }
+                AddItemForm(
+                    uiState = uiState,
+                    onNameChange = viewModel::onNameChange,
+                    onStockChange = viewModel::onStockChange,
+                    onStockIncrement = viewModel::onStockIncrement,
+                    onStockDecrement = viewModel::onStockDecrement,
+                    onAddItem = viewModel::addItem
+                )
 
-                item {
-                    StockHeaderAndFilter(
-                        uiState = uiState,
-                        onSelectSortOption = viewModel::setSortOption
-                    )
-                }
+                StockHeaderAndFilter(
+                    uiState = uiState,
+                    onSelectSortOption = viewModel::setSortOption
+                )
 
-                if (uiState.displayedItems.isEmpty()) {
-                    item {
-                        EmptyStateView()
-                    }
-                } else {
-                    items(items = uiState.displayedItems, key = { it.id }) { item ->
-                        InventoryItemCard(
-                            item = item,
-                            onDelete = { viewModel.deleteItem(item.id) }
-                        )
-                    }
-                }
+                InventoryList(
+                    items = uiState.displayedItems,
+                    onDeleteItem = viewModel::deleteItem,
+                    onSelectItem = viewModel::selectItemForEdit,
+                    modifier = Modifier.weight(1f)
+                )
             }
         }
     }

@@ -13,8 +13,12 @@ data class InventoryUiState(
     val nameInput: String = "",
     val stockInput: Int = 3,
     val nameError: String? = null,
-    val sortOption: StockSortOption = StockSortOption.NONE
+    val sortOption: StockSortOption = StockSortOption.NONE,
+    val editingItemId: String? = null
 ) {
+    val isEditing: Boolean
+        get() = editingItemId != null
+
     val displayedItems: List<InventoryItem>
         get() {
             return when (sortOption) {

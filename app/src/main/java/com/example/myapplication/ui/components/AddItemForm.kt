@@ -41,7 +41,7 @@ fun AddItemForm(
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Text(
-                text = "Tambah Barang",
+                text = if (uiState.isEditing) "Edit Barang" else "Tambah Barang",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color(0xFF1C1B1F)
@@ -129,7 +129,10 @@ fun AddItemForm(
                     shape = RoundedCornerShape(20.dp),
                     modifier = Modifier.defaultMinSize(minWidth = 110.dp)
                 ) {
-                    Text(text = "Tambah", fontWeight = FontWeight.Bold)
+                    Text(
+                        text = if (uiState.isEditing) "Perbarui" else "Tambah",
+                        fontWeight = FontWeight.Bold
+                    )
                 }
             }
         }

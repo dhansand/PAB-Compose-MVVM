@@ -43,6 +43,17 @@ class InventoryViewModel : ViewModel() {
         _uiState.update { it.copy(stockInput = (it.stockInput - 1).coerceAtLeast(1)) }
     }
 
+    fun selectItemForEdit(item: InventoryItem) {
+        _uiState.update {
+            it.copy(
+                editingItemId = item.id,
+                nameInput = item.name,
+                stockInput = item.stock,
+                nameError = null
+            )
+        }
+    }
+
     fun addItem() {
         val currentState = _uiState.value
         if (currentState.nameInput.isBlank()) {
@@ -50,24 +61,52 @@ class InventoryViewModel : ViewModel() {
             return
         }
 
-        val newItem = InventoryItem(
-            name = currentState.nameInput.trim(),
-            stock = currentState.stockInput.coerceAtLeast(1)
-        )
+        val name = currentState.nameInput.trim()
+        val stock = currentState.stockInput.coerceAtLeast(1)
 
-        _uiState.update {
-            it.copy(
-                items = it.items + newItem,
-                nameInput = "",
-                stockInput = 1,
-                nameError = null
+        if (currentState.isEditing) {
+            _uiState.update { state ->
+                state.copy(
+                    items = state.items.map { item ->
+                        if (item.id == state.editingItemId) {
+                            item.copy(name = name, stock = stock)
+                        } else {
+                            item
+                        }
+                    },
+                    nameInput = "",
+                    stockInput = 1,
+                    editingItemId = null,
+                    nameError = null
+                )
+            }
+        } else {
+            val newItem = InventoryItem(
+                name = name,
+                stock = stock
             )
+
+            _uiState.update {
+                it.copy(
+                    items = it.items + newItem,
+                    nameInput = "",
+                    stockInput = 1,
+                    nameError = null
+                )
+            }
         }
     }
 
     fun deleteItem(id: String) {
         _uiState.update { state ->
-            state.copy(items = state.items.filterNot { it.id == id })
+            val isEditingDeleted = state.editingItemId == id
+            state.copy(
+                items = state.items.filterNot { it.id == id },
+                editingItemId = if (isEditingDeleted) null else state.editingItemId,
+                nameInput = if (isEditingDeleted) "" else state.nameInput,
+                stockInput = if (isEditingDeleted) 1 else state.stockInput,
+                nameError = if (isEditingDeleted) null else state.nameError
+            )
         }
     }
 
