@@ -102,7 +102,7 @@ Berikut adalah contoh alur konkrit **Unidirectional Data Flow (UDF)** pada fitur
 
 | Mode Portrait (Layar Standar HP) | Mode Landscape (Layar Lebar / Dual-Pane) |
 | :---: | :---: |
-| ![Mode Portrait]([docs/screenshots/portrait.png](https://github.com/dhansand/PAB-Compose-MVVM/blob/Project/app/src/Cuplikan%20layar%202026-10-29%20005631.png) | ![Mode Landscape]([docs/screenshots/landscape.png](https://github.com/dhansand/PAB-Compose-MVVM/blob/Project/app/src/Cuplikan%20layar%202026-10-29%20005721.png)) |
+| ![Mode Portrait]([docs/screenshots/portrait.png](https://github.com/dhansand/PAB-Compose-MVVM/blob/Project/app/src/Cuplikan%20layar%202026-10-29%20005631.png) | ![Mode Landscape]([docs/screenshots/landscape.png](https://github.com/dhansand/PAB-Compose-MVVM/blob/Project/app/src/Cuplikan%20layar%202026-10-29%20005721.png) |
 
 ---
 
